@@ -1,0 +1,610 @@
+/* import { useEffect, useState } from "react";
+
+interface User {
+id: number;
+uuid: string;
+name: string;
+email: string;
+role: string;
+}
+
+function AdminDashboard() {
+const [users, setUsers] = useState<User[]>([]);
+const [name, setName] = useState("");
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+const [role, setRole] = useState("STUDENT");
+const [editingUuid, setEditingUuid] = useState("");
+const [isEditing, setIsEditing] = useState(false);
+
+const fetchUsers = async () => {
+try {
+const token = localStorage.getItem("accessToken");
+
+
+  const response = await fetch(
+    "http://localhost:5000/users",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  const data = await response.json();
+
+  setUsers(data);
+} catch (error) {
+  console.log(error);
+}
+
+
+};
+
+const deleteUser = async (uuid: string) => {
+try {
+const token = localStorage.getItem("accessToken");
+
+
+  await fetch(
+    `http://localhost:5000/users/${uuid}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  fetchUsers();
+} catch (error) {
+  console.log(error);
+}
+
+
+};
+
+
+const createUser = async () => {
+  try {
+    const token = localStorage.getItem("accessToken");
+
+    const response = await fetch(
+      "http://localhost:5000/users",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          role,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    console.log(data);
+
+    fetchUsers();
+
+    setName("");
+    setEmail("");
+    setPassword("");
+    setRole("STUDENT");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+const updateUser = async () => {
+try {
+const token = localStorage.getItem("accessToken");
+
+
+await fetch(
+  `http://localhost:5000/users/${editingUuid}`,
+  {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      name,
+      email,
+      role,
+    }),
+  }
+);
+
+fetchUsers();
+
+setName("");
+setEmail("");
+setPassword("");
+setRole("STUDENT");
+
+setEditingUuid("");
+setIsEditing(false);
+
+
+} catch (error) {
+console.log(error);
+}
+};
+
+const handleEdit = (user: User) => {
+setName(user.name);
+setEmail(user.email);
+setRole(user.role);
+
+setEditingUuid(user.uuid);
+setIsEditing(true);
+};
+
+
+
+
+useEffect(() => {
+fetchUsers();
+}, []);
+
+return ( <div className="p-10"> <h1 className="text-3xl font-bold mb-6">
+Admin Dashboard </h1>
+
+
+<div className="border p-4 mb-6 rounded">
+  <h2 className="text-xl font-bold mb-4">
+    Add User
+  </h2>
+
+  <input
+    type="text"
+    placeholder="Name"
+    value={name}
+    onChange={(e) =>
+      setName(e.target.value)
+    }
+    className="border p-2 mr-2"
+  />
+
+  <input
+    type="email"
+    placeholder="Email"
+    value={email}
+    onChange={(e) =>
+      setEmail(e.target.value)
+    }
+    className="border p-2 mr-2"
+  />
+
+  <input
+    type="password"
+    placeholder="Password"
+    value={password}
+    onChange={(e) =>
+      setPassword(e.target.value)
+    }
+    className="border p-2 mr-2"
+  />
+
+  <select
+    value={role}
+    onChange={(e) =>
+      setRole(e.target.value)
+    }
+    className="border p-2 mr-2"
+  >
+    <option value="ADMIN">
+      ADMIN
+    </option>
+
+    <option value="LIBRARIAN">
+      LIBRARIAN
+    </option>
+
+    <option value="STUDENT">
+      STUDENT
+    </option>
+  </select>
+
+  <button
+  onClick={
+    isEditing
+      ? updateUser
+      : createUser
+  }
+  className="bg-green-500 text-white px-4 py-2 rounded"
+>
+  {isEditing
+    ? "Update User"
+    : "Create User"}
+</button>
+</div>
+
+  <table className="w-full border">
+    <thead>
+      <tr>
+        <th className="border p-2">Name</th>
+        <th className="border p-2">Email</th>
+        <th className="border p-2">Role</th>
+        <th className="border p-2">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {users.map((user) => (
+        <tr key={user.uuid}>
+          <td className="border p-2">
+            {user.name}
+          </td>
+
+          <td className="border p-2">
+            {user.email}
+          </td>
+
+          <td className="border p-2">
+            {user.role}
+          </td>
+
+          <td className="border p-2">
+            <div className="flex gap-2">
+  <button
+    className="bg-blue-500 text-white px-3 py-1 rounded"
+    onClick={() =>
+      handleEdit(user)
+    }
+  >
+    Edit
+  </button>
+
+  <button
+    className="bg-red-500 text-white px-3 py-1 rounded"
+    onClick={() =>
+      deleteUser(user.uuid)
+    }
+  >
+    Delete
+  </button>
+</div>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+
+);
+}
+
+export default AdminDashboard; */
+
+
+
+
+import { useEffect, useState } from "react";
+
+interface User {
+id: number;
+uuid: string;
+name: string;
+email: string;
+role: string;
+}
+
+function AdminDashboard() {
+const [users, setUsers] = useState<User[]>([]);
+const [name, setName] = useState("");
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+const [role, setRole] = useState("STUDENT");
+const [editingUuid, setEditingUuid] = useState("");
+const [isEditing, setIsEditing] = useState(false);
+
+const fetchUsers = async () => {
+try {
+const token = localStorage.getItem("accessToken");
+
+
+  const response = await fetch(
+    "http://localhost:5000/users",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  const data = await response.json();
+  setUsers(data);
+} catch (error) {
+  console.log(error);
+}
+
+
+};
+
+const deleteUser = async (uuid: string) => {
+try {
+const token = localStorage.getItem("accessToken");
+
+
+  await fetch(
+    `http://localhost:5000/users/${uuid}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  fetchUsers();
+} catch (error) {
+  console.log(error);
+}
+
+
+};
+
+const createUser = async () => {
+try {
+const token = localStorage.getItem("accessToken");
+
+
+  await fetch(
+    "http://localhost:5000/users",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+        role,
+      }),
+    }
+  );
+
+  fetchUsers();
+
+  setName("");
+  setEmail("");
+  setPassword("");
+  setRole("STUDENT");
+} catch (error) {
+  console.log(error);
+}
+
+
+};
+
+const updateUser = async () => {
+try {
+const token = localStorage.getItem("accessToken");
+
+
+  await fetch(
+    `http://localhost:5000/users/${editingUuid}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        role,
+      }),
+    }
+  );
+
+  fetchUsers();
+
+  setName("");
+  setEmail("");
+  setPassword("");
+  setRole("STUDENT");
+
+  setEditingUuid("");
+  setIsEditing(false);
+} catch (error) {
+  console.log(error);
+}
+
+
+};
+
+const handleEdit = (user: User) => {
+setName(user.name);
+setEmail(user.email);
+setRole(user.role);
+
+
+setEditingUuid(user.uuid);
+setIsEditing(true);
+
+
+};
+
+useEffect(() => {
+fetchUsers();
+}, []);
+
+return ( <div className="min-h-screen bg-gray-100 p-10"> <h1 className="text-4xl font-bold text-center text-gray-800 mb-2">
+Library Management System </h1>
+
+    <h2 className="text-2xl font-semibold text-center text-blue-700 mb-2">
+  Admin Dashboard
+</h2>
+
+
+  <p className="text-center text-gray-500 mb-8">
+    User Management Dashboard
+  </p>
+
+  <div className="bg-white shadow-lg rounded-xl p-6 mb-8">
+    <h2 className="text-2xl font-semibold mb-6 text-gray-700">
+      {isEditing ? "Edit User" : "Add User"}
+    </h2>
+
+    <div className="flex flex-wrap gap-3">
+      <input
+        type="text"
+        placeholder="Name"
+        value={name}
+        onChange={(e) =>
+          setName(e.target.value)
+        }
+        className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) =>
+          setEmail(e.target.value)
+        }
+        className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) =>
+          setPassword(e.target.value)
+        }
+        className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+
+      <select
+        value={role}
+        onChange={(e) =>
+          setRole(e.target.value)
+        }
+        className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+      >
+        <option value="ADMIN">
+          ADMIN
+        </option>
+
+        <option value="LIBRARIAN">
+          LIBRARIAN
+        </option>
+
+        <option value="STUDENT">
+          STUDENT
+        </option>
+      </select>
+
+      <button
+        onClick={
+          isEditing
+            ? updateUser
+            : createUser
+        }
+        className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg"
+      >
+        {isEditing
+          ? "Update User"
+          : "Create User"}
+      </button>
+    </div>
+  </div>
+
+  <div className="bg-white shadow-lg rounded-xl overflow-hidden">
+    <table className="w-full">
+      <thead className="bg-gray-800 text-white">
+        <tr>
+          <th className="p-4">
+            Name
+          </th>
+          <th className="p-4">
+            Email
+          </th>
+          <th className="p-4">
+            Role
+          </th>
+          <th className="p-4">
+            Actions
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {users.map((user) => (
+          <tr
+            key={user.uuid}
+            className="hover:bg-gray-50"
+          >
+            <td className="border p-4">
+              {user.name}
+            </td>
+
+            <td className="border p-4">
+              {user.email}
+            </td>
+
+            <td className="border p-4">
+              <span
+                className={
+                  user.role === "ADMIN"
+                    ? "bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium"
+                    : user.role ===
+                      "LIBRARIAN"
+                    ? "bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium"
+                    : "bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium"
+                }
+              >
+                {user.role}
+              </span>
+            </td>
+
+            <td className="border p-4">
+              <div className="flex gap-2">
+                <button
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-lg"
+                  onClick={() =>
+                    handleEdit(user)
+                  }
+                >
+                  Edit
+                </button>
+
+                <button
+                  className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg"
+                  onClick={() =>
+                    deleteUser(
+                      user.uuid
+                    )
+                  }
+                >
+                  Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+);
+}
+
+export default AdminDashboard;
