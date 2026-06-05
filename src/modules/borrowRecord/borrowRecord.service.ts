@@ -1,17 +1,32 @@
 import prisma from "../../config/prisma";
 
-export const createBorrowRecord = async (data: {
-  bookId: number;
-  memberId: number;
-}) => {
-  return prisma.borrowRecord.create({
-    data,
-    include: {
-      book: true,
-      member: true,
-    },
-  });
-};
+export const createBorrowRecord =
+  async (
+    bookId: number,
+    memberId: number
+  ) => {
+
+    const existingBorrow =
+      await prisma.borrowRecord.findFirst({
+        where: {
+          bookId,
+          status: "BORROWED",
+        },
+      });
+
+    if (existingBorrow) {
+      throw new Error(
+        "Book is already borrowed"
+      );
+    }
+
+    return await prisma.borrowRecord.create({
+      data: {
+        bookId,
+        memberId,
+      },
+    });
+  };
 
 export const getAllBorrowRecords = async () => {
   return prisma.borrowRecord.findMany({

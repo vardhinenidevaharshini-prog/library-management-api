@@ -150,12 +150,11 @@ export const deleteBookHandler = async (
       success: true,
       message: "Book deleted successfully",
     });
-  } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      success: false,
-      message: "Failed to delete book",
-    });
-  }
-};
+  } 
+    catch (error: any) {
+  return res.status(400).json({
+    success: false,
+    message: error.message,
+  });
+}
+  };

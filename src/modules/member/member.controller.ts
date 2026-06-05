@@ -103,13 +103,10 @@ export const deleteMemberHandler = async (
       success: true,
       message: "Member deleted successfully",
     });
-  } catch (error) {
-  console.error(error);
-
-  res.status(500).json({
+  } catch (error: any) {
+  return res.status(400).json({
     success: false,
-    error,
-    message: "Failed to create member",
+    message: error.message,
   });
 }
-  }
+};

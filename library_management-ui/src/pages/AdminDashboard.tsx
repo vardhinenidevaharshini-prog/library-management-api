@@ -1,295 +1,5 @@
-/* import { useEffect, useState } from "react";
-
-interface User {
-id: number;
-uuid: string;
-name: string;
-email: string;
-role: string;
-}
-
-function AdminDashboard() {
-const [users, setUsers] = useState<User[]>([]);
-const [name, setName] = useState("");
-const [email, setEmail] = useState("");
-const [password, setPassword] = useState("");
-const [role, setRole] = useState("STUDENT");
-const [editingUuid, setEditingUuid] = useState("");
-const [isEditing, setIsEditing] = useState(false);
-
-const fetchUsers = async () => {
-try {
-const token = localStorage.getItem("accessToken");
-
-
-  const response = await fetch(
-    "http://localhost:5000/users",
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-
-  const data = await response.json();
-
-  setUsers(data);
-} catch (error) {
-  console.log(error);
-}
-
-
-};
-
-const deleteUser = async (uuid: string) => {
-try {
-const token = localStorage.getItem("accessToken");
-
-
-  await fetch(
-    `http://localhost:5000/users/${uuid}`,
-    {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-
-  fetchUsers();
-} catch (error) {
-  console.log(error);
-}
-
-
-};
-
-
-const createUser = async () => {
-  try {
-    const token = localStorage.getItem("accessToken");
-
-    const response = await fetch(
-      "http://localhost:5000/users",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-          role,
-        }),
-      }
-    );
-
-    const data = await response.json();
-
-    console.log(data);
-
-    fetchUsers();
-
-    setName("");
-    setEmail("");
-    setPassword("");
-    setRole("STUDENT");
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-
-const updateUser = async () => {
-try {
-const token = localStorage.getItem("accessToken");
-
-
-await fetch(
-  `http://localhost:5000/users/${editingUuid}`,
-  {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({
-      name,
-      email,
-      role,
-    }),
-  }
-);
-
-fetchUsers();
-
-setName("");
-setEmail("");
-setPassword("");
-setRole("STUDENT");
-
-setEditingUuid("");
-setIsEditing(false);
-
-
-} catch (error) {
-console.log(error);
-}
-};
-
-const handleEdit = (user: User) => {
-setName(user.name);
-setEmail(user.email);
-setRole(user.role);
-
-setEditingUuid(user.uuid);
-setIsEditing(true);
-};
-
-
-
-
-useEffect(() => {
-fetchUsers();
-}, []);
-
-return ( <div className="p-10"> <h1 className="text-3xl font-bold mb-6">
-Admin Dashboard </h1>
-
-
-<div className="border p-4 mb-6 rounded">
-  <h2 className="text-xl font-bold mb-4">
-    Add User
-  </h2>
-
-  <input
-    type="text"
-    placeholder="Name"
-    value={name}
-    onChange={(e) =>
-      setName(e.target.value)
-    }
-    className="border p-2 mr-2"
-  />
-
-  <input
-    type="email"
-    placeholder="Email"
-    value={email}
-    onChange={(e) =>
-      setEmail(e.target.value)
-    }
-    className="border p-2 mr-2"
-  />
-
-  <input
-    type="password"
-    placeholder="Password"
-    value={password}
-    onChange={(e) =>
-      setPassword(e.target.value)
-    }
-    className="border p-2 mr-2"
-  />
-
-  <select
-    value={role}
-    onChange={(e) =>
-      setRole(e.target.value)
-    }
-    className="border p-2 mr-2"
-  >
-    <option value="ADMIN">
-      ADMIN
-    </option>
-
-    <option value="LIBRARIAN">
-      LIBRARIAN
-    </option>
-
-    <option value="STUDENT">
-      STUDENT
-    </option>
-  </select>
-
-  <button
-  onClick={
-    isEditing
-      ? updateUser
-      : createUser
-  }
-  className="bg-green-500 text-white px-4 py-2 rounded"
->
-  {isEditing
-    ? "Update User"
-    : "Create User"}
-</button>
-</div>
-
-  <table className="w-full border">
-    <thead>
-      <tr>
-        <th className="border p-2">Name</th>
-        <th className="border p-2">Email</th>
-        <th className="border p-2">Role</th>
-        <th className="border p-2">Actions</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      {users.map((user) => (
-        <tr key={user.uuid}>
-          <td className="border p-2">
-            {user.name}
-          </td>
-
-          <td className="border p-2">
-            {user.email}
-          </td>
-
-          <td className="border p-2">
-            {user.role}
-          </td>
-
-          <td className="border p-2">
-            <div className="flex gap-2">
-  <button
-    className="bg-blue-500 text-white px-3 py-1 rounded"
-    onClick={() =>
-      handleEdit(user)
-    }
-  >
-    Edit
-  </button>
-
-  <button
-    className="bg-red-500 text-white px-3 py-1 rounded"
-    onClick={() =>
-      deleteUser(user.uuid)
-    }
-  >
-    Delete
-  </button>
-</div>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
-
-
-);
-}
-
-export default AdminDashboard; */
-
-
-
-
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface User {
 id: number;
@@ -307,6 +17,11 @@ const [password, setPassword] = useState("");
 const [role, setRole] = useState("STUDENT");
 const [editingUuid, setEditingUuid] = useState("");
 const [isEditing, setIsEditing] = useState(false);
+const [bookCount, setBookCount] = useState(0);
+const [memberCount, setMemberCount] = useState(0);
+const [borrowCount, setBorrowCount] = useState(0);
+const navigate = useNavigate();
+
 
 const fetchUsers = async () => {
 try {
@@ -438,8 +153,71 @@ setIsEditing(true);
 
 };
 
+
+const fetchDashboardStats = async () => {
+  try {
+    const token =
+      localStorage.getItem(
+        "accessToken"
+      );
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const [
+      booksResponse,
+      membersResponse,
+      borrowResponse,
+    ] = await Promise.all([
+      fetch(
+        "http://localhost:5000/books",
+        { headers }
+      ),
+      fetch(
+        "http://localhost:5000/members",
+        { headers }
+      ),
+      fetch(
+        "http://localhost:5000/borrow-records",
+        { headers }
+      ),
+    ]);
+
+    const books =
+      await booksResponse.json();
+
+    const members =
+      await membersResponse.json();
+
+    const borrowRecords =
+      await borrowResponse.json();
+
+    console.log(books);
+    console.log(members);
+    console.log(borrowRecords);
+    
+
+    setBookCount(
+  books.data?.length || 0
+);
+
+setMemberCount(
+  members.data?.length || 0
+);
+
+setBorrowCount(
+  borrowRecords.data?.length || 0
+);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
 useEffect(() => {
 fetchUsers();
+fetchDashboardStats();
 }, []);
 
 return ( <div className="min-h-screen bg-gray-100 p-10"> <h1 className="text-4xl font-bold text-center text-gray-800 mb-2">
@@ -453,6 +231,69 @@ Library Management System </h1>
   <p className="text-center text-gray-500 mb-8">
     User Management Dashboard
   </p>
+
+
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+
+  <div className="bg-white shadow-lg rounded-xl p-5">
+    <h3 className="text-gray-500 text-sm">
+      Total Users
+    </h3>
+
+    <p className="text-3xl font-bold text-blue-700">
+      {users.length}
+    </p>
+  </div>
+
+  <div
+  onClick={() =>
+    navigate("/admin/books")
+  }
+  className="bg-white shadow-lg rounded-xl p-5 cursor-pointer hover:scale-105 transition"
+>
+    <h3 className="text-gray-500 text-sm">
+      Total Books
+    </h3>
+
+    <p className="text-3xl font-bold text-green-700">
+      {bookCount}
+    </p>
+  </div>
+
+  <div
+  onClick={() =>
+    navigate("/admin/members")
+  }
+  className="bg-white shadow-lg rounded-xl p-5 cursor-pointer hover:scale-105 transition"
+>
+    <h3 className="text-gray-500 text-sm">
+      Total Members
+    </h3>
+
+    <p className="text-3xl font-bold text-purple-700">
+      {memberCount}
+    </p>
+  </div>
+
+  <div
+  onClick={() =>
+    navigate(
+      "/admin/borrow-records"
+    )
+  }
+  className="bg-white shadow-lg rounded-xl p-5 cursor-pointer hover:scale-105 transition"
+>
+    <h3 className="text-gray-500 text-sm">
+      Borrow Records
+    </h3>
+
+    <p className="text-3xl font-bold text-red-700">
+      {borrowCount}
+    </p>
+  </div>
+
+</div>
+
 
   <div className="bg-white shadow-lg rounded-xl p-6 mb-8">
     <h2 className="text-2xl font-semibold mb-6 text-gray-700">

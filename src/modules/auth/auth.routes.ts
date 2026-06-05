@@ -1,31 +1,11 @@
-/* import { Router } from "express";
-import { 
-    registerHandler,
-    loginHandler,
-    refreshTokenHandler,
- } from "./auth.controller";
-
-const router = Router();
-
-router.post("/register", registerHandler);
-
-router.post("/login", loginHandler);
-
-router.post(
-  "/refresh-token",
-  refreshTokenHandler
-);
-
-export default router;*/
-
-
-
-
 import { Router } from "express";
 import {
   registerHandler,
   loginHandler,
   refreshTokenHandler,
+  changePasswordHandler,
+  forgotPasswordHandler,
+  resetPasswordHandler,
 } from "./auth.controller";
 
 const router = Router();
@@ -72,5 +52,52 @@ router.post("/login", loginHandler);
  *         description: Token refreshed successfully
  */
 router.post("/refresh-token", refreshTokenHandler);
+
+/**
+ * @swagger
+ * /auth/change-password:
+ *   post:
+ *     summary: Change Password
+ *     tags: [Authentication]
+ *     responses:
+ *       200:
+ *         description: Password changed successfully
+ */
+router.post(
+  "/change-password",
+  changePasswordHandler
+);
+
+
+/**
+ * @swagger
+ * /auth/forgot-password:
+ *   post:
+ *     summary: Forgot Password
+ *     tags: [Authentication]
+ *     responses:
+ *       200:
+ *         description: Reset token generated
+ */
+router.post(
+  "/forgot-password",
+  forgotPasswordHandler
+);
+
+/**
+ * @swagger
+ * /auth/reset-password:
+ *   post:
+ *     summary: Reset Password
+ *     tags: [Authentication]
+ *     responses:
+ *       200:
+ *         description: Password reset successfully
+ */
+router.post(
+  "/reset-password",
+  resetPasswordHandler
+);
+
 
 export default router;

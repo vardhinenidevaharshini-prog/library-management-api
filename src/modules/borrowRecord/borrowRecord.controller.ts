@@ -7,20 +7,23 @@ export const createBorrowRecordHandler =
     res: Response
   ) => {
     try {
+      const { bookId, memberId } =
+        req.body;
+
       const record =
         await borrowRecordService.createBorrowRecord(
-          req.body
+          bookId,
+          memberId
         );
 
-      res.status(201).json({
+      return res.status(201).json({
         success: true,
         data: record,
       });
-    } catch (error) {
-      res.status(500).json({
+    } catch (error: any) {
+      return res.status(400).json({
         success: false,
-        message:
-          "Failed to create borrow record",
+        message: error.message,
       });
     }
   };

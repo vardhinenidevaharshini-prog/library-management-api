@@ -53,11 +53,22 @@ export const updateBook = async (
 };
 
 export const deleteBook = async (id: number) => {
-  const book = await prisma.book.delete({
+  const borrowRecord =
+    await prisma.borrowRecord.findFirst({
+      where: {
+        bookId: id,
+      },
+    });
+
+  if (borrowRecord) {
+    throw new Error(
+      "Cannot delete book with borrow history"
+    );
+  }
+
+  return await prisma.book.delete({
     where: {
       id,
     },
   });
-
-  return book;
 };

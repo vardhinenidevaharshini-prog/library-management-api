@@ -38,8 +38,25 @@ export const updateMember = async (
   });
 };
 
-export const deleteMember = async (id: number) => {
-  return prisma.member.delete({
-    where: { id },
+export const deleteMember = async (
+  id: number
+) => {
+  const borrowRecord =
+    await prisma.borrowRecord.findFirst({
+      where: {
+        memberId: id,
+      },
+    });
+
+  if (borrowRecord) {
+    throw new Error(
+      "Cannot delete member with borrow history"
+    );
+  }
+
+  return await prisma.member.delete({
+    where: {
+      id,
+    },
   });
 };
