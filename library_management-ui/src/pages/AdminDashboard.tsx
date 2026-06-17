@@ -22,6 +22,13 @@ const [memberCount, setMemberCount] = useState(0);
 const [borrowCount, setBorrowCount] = useState(0);
 const navigate = useNavigate();
 
+const handleLogout = () => {
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("user");
+
+  navigate("/");
+};
+
 
 const fetchUsers = async () => {
 try {
@@ -223,14 +230,34 @@ fetchDashboardStats();
 return ( <div className="min-h-screen bg-gray-100 p-10"> <h1 className="text-4xl font-bold text-center text-gray-800 mb-2">
 Library Management System </h1>
 
-    <h2 className="text-2xl font-semibold text-center text-blue-700 mb-2">
-  Admin Dashboard
-</h2>
+    <div className="flex justify-between items-center mb-8">
+  <div>
+    <h2 className="text-2xl font-semibold text-blue-700">
+      Admin Dashboard
+    </h2>
 
+    <p className="text-gray-500">
+      User Management Dashboard
+    </p>
+  </div>
 
-  <p className="text-center text-gray-500 mb-8">
-    User Management Dashboard
-  </p>
+  <div className="flex justify-center gap-4 mb-6">
+  <button
+    onClick={handleLogout}
+    className="bg-red-500 text-white px-6 py-3 rounded-lg"
+  >
+    Logout
+  </button>
+
+  <button
+    onClick={() => navigate("/profile")}
+    className="bg-blue-600 text-white px-6 py-3 rounded-lg"
+  >
+    Profile
+  </button>
+</div>
+
+</div>
 
 
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">

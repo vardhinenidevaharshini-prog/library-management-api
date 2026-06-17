@@ -4,6 +4,13 @@ import { useNavigate } from "react-router-dom";
 function LibrarianDashboard() {
   const navigate = useNavigate();
 
+  const handleLogout = () => {
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("user");
+
+  navigate("/");
+};
+
   const [booksCount, setBooksCount] =
     useState(0);
 
@@ -86,6 +93,22 @@ function LibrarianDashboard() {
       <h2 className="text-3xl text-blue-600 font-bold text-center mb-10">
         Librarian Dashboard
       </h2>
+
+      <div className="flex justify-end gap-3 mb-6">
+  <button
+    onClick={() => navigate("/profile")}
+    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+  >
+    Profile
+  </button>
+
+  <button
+    onClick={handleLogout}
+    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+  >
+    Logout
+  </button>
+</div>
 
       <div className="grid grid-cols-3 gap-6 mb-10">
         <div className="bg-white p-6 rounded shadow">

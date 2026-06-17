@@ -13,6 +13,9 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import ChangePassword from "./pages/ChangePassword";
 
+import ProtectedRoute from "./components/ProtectedRoute";
+import RoleProtectedRoute from "./components/RoleProtectedRoute";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -20,62 +23,123 @@ function App() {
       <Route path="/" element={<Login />} />
       <Route
         path="/admin/dashboard"
-        element={<AdminDashboard />}
-      />
+        element={
+        <ProtectedRoute>
+          <RoleProtectedRoute role="ADMIN">
+            <AdminDashboard />
+          </RoleProtectedRoute>
+        </ProtectedRoute>
+    }
+    />
+
       <Route
-        path="/librarian/dashboard"
-        element={<LibrarianDashboard />}
-      />
+  path="/librarian/dashboard"
+  element={
+    <ProtectedRoute>
+      <RoleProtectedRoute role="LIBRARIAN">
+        <LibrarianDashboard />
+      </RoleProtectedRoute>
+    </ProtectedRoute>
+  }
+/>
+
       <Route
-        path="/student/dashboard"
-        element={<StudentDashboard />}
-      />
+  path="/student/dashboard"
+  element={
+    <ProtectedRoute>
+      <RoleProtectedRoute role="STUDENT">
+        <StudentDashboard />
+      </RoleProtectedRoute>
+    </ProtectedRoute>
+  }
+/>
 
 
       <Route
         path="/admin/books"
-        element={<BooksDashboard />}
+        element={
+          <ProtectedRoute>
+            <BooksDashboard />
+          </ProtectedRoute>
+        }
       />
 
       <Route
         path="/admin/members"
-        element={<MembersDashboard />}
+        element={
+          <ProtectedRoute>
+            <MembersDashboard />
+          </ProtectedRoute>
+        }
       />
 
       <Route
         path="/admin/borrow-records"
-        element={<BorrowRecordsDashboard />}
+        element={
+          <ProtectedRoute>
+            <BorrowRecordsDashboard />
+          </ProtectedRoute>
+        }
       />
 
       <Route
         path="/librarian/books"
-        element={<BooksDashboard />}
+        element={
+          <ProtectedRoute>
+            <BooksDashboard />
+          </ProtectedRoute>
+        }
       />
 
       <Route
         path="/librarian/members"
-        element={<MembersDashboard />}
+        element={
+          <ProtectedRoute>
+            <MembersDashboard />
+          </ProtectedRoute>
+        }
       />
 
       <Route
         path="/librarian/borrow-records"
-        element={<BorrowRecordsDashboard />}
+        element={
+          <ProtectedRoute>
+            <BorrowRecordsDashboard />
+          </ProtectedRoute>
+        }
       />
 
       <Route
         path="/forgot-password"
-        element={<ForgotPassword />}
+        element={
+            <ForgotPassword />
+        }
       />
 
       <Route
         path="/reset-password"
-        element={<ResetPassword />}
+        element={
+            <ResetPassword />
+        }
       />
 
       <Route
         path="/change-password"
-        element={<ChangePassword />}
+        element={
+          <ProtectedRoute>
+            <ChangePassword />
+          </ProtectedRoute>
+        }
       />
+
+      <Route
+  path="/profile"
+  element={
+    <ProtectedRoute>
+      <Profile />
+    </ProtectedRoute>
+  }
+/>
 
     </Routes>
   );

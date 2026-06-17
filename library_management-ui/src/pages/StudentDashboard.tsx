@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Book {
   id: number;
@@ -8,6 +9,9 @@ interface Book {
 }
 
 function StudentDashboard() {
+
+    const navigate = useNavigate();
+
   const user = JSON.parse(
     localStorage.getItem("user") || "{}"
   );
@@ -56,6 +60,25 @@ function StudentDashboard() {
       <h2 className="text-3xl text-green-600 font-bold text-center mb-10">
         Student Dashboard
       </h2>
+
+
+<div className="flex justify-end gap-3 mb-6">
+  <button
+    onClick={() => navigate("/profile")}
+    className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+  >
+    Profile
+  </button>
+
+  <button
+    onClick={handleLogout}
+    className="bg-red-500 text-white px-4 py-2 rounded-lg"
+  >
+    Logout
+  </button>
+</div>
+
+
 
       <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
         <h3 className="text-2xl font-bold mb-4">
@@ -128,14 +151,6 @@ function StudentDashboard() {
         </table>
       </div>
 
-      <div className="mt-8 text-center">
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 text-white px-6 py-3 rounded-lg"
-        >
-          Logout
-        </button>
-      </div>
     </div>
   );
 }
